@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drag and Drop File Uploader</title>
+  </head>
+  <body>
+    <h1>Drag and Drop File Uploader</h1>
+    <div id="dropzone" style="border: 2px dashed gray; padding: 20px; width: 400px; height: 200px;">
+      <p>Drag and drop a file here, or click to select a file</p>
+    </div>
+    <script>
+      var dropzone = document.getElementById('dropzone');
+
+      // Prevent default behavior (Prevent file from being opened)
+      dropzone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropzone.style.backgroundColor = '#f5f5f5';
+      });
+
+      // Handle file drop
+      dropzone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropzone.style.backgroundColor = '#fff';
+        var file = e.dataTransfer.files[0];
+        console.log('File dropped: ' + file.name);
+        // Do something with the file
+      });
+
+      // Handle file selection through file dialog
+      dropzone.addEventListener('click', function(e) {
+        var fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.addEventListener('change', function(e) {
+          var file = fileInput.files[0];
+          console.log('File selected: ' + file.name);
+          // Do something with the file
+        });
+        fileInput.click();
+      });
+    </script>
+  </body>
+</html>

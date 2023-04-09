@@ -1,0 +1,14 @@
+.class {
+width: 600px;
+horizontal-align: center;
+}
+
+h1 {
+font-size: 100px;
+}
+
+img {
+    width:540px; /* you can use % */
+    height: auto;
+    image-rendering: pixelated;
+}

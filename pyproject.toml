@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "bau steine"
+version = "0.1.0"
+description = ""
+authors = ["Selim Onat"]
+
+[tool.poetry.dependencies]
+python = ">3.8,<3.12"
+svglib = "^1.5.1"
+Flask = "^2.2.3"
+numpy = "^1.24.2"
+svgwrite = "^1.4.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

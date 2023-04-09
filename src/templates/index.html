@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drag and Drop Image Conversion</title>
+  </head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+
+  <body>
+    <div class="container"> <div class="row">
+    <div className='col-12 text-center'>
+        <h1>FotoBricks</h1>
+    </div>
+    </div> </div>
+
+    <div class="container"> <div class="row">
+    <div id="form col-12">
+        <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" onchange="this.form.submit();" style="display: none;">
+        <button type="button" class="btn btn-primary">
+            <label for="file" >Upload Image</label>
+        </button>
+        </form>
+    </div>
+    </div></div>
+
+    <div class="container"> <div class="row">
+    <div class="bricksImage col-12">
+        {% if image_file %}
+        <img class="img-fluid" src="{{ url_for('static', filename=image_file) }}" alt="">
+        {% endif %}
+    </div>
+        </div></div>
+
+  </body>
+</html>
