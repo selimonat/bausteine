@@ -18,25 +18,19 @@ def home():
         img.save('./static/image.png')
 
         # Apply the palette to the image
-        apply_palette(img_file)
+        apply_palette(img_file)  # will save image_palette.png to static folder
 
         # Render the template with the black and white image file
         return render_template('index.html',
-                               image_file='image_palette.png',
-                               png_image='image.png')
+                               image_file='image_palette_applied.png',
+                               png_file='image.png',
+                               palette_file='palette.png')
 
     # Render the template with no image file
     return render_template('index.html')
 
 
-# @app.route('/', methods=['GET', 'POST'])
-# def slider_submit():
-#     if request.method == 'POST':
-#         slider_value = request.form['sliderValue']
-#         print(slider_value)
-#         return f'The value of the slider is {slider_value}'
-#     return render_template('slider.html')
-
-
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True,
+            host='0.0.0.0',
+            port=5050)

@@ -1,14 +1,21 @@
-.class {
-width: 600px;
-horizontal-align: center;
-}
-
 h1 {
 font-size: 100px;
 }
 
-img {
-    width:540px; /* you can use % */
-    height: auto;
+.img_ori {
+    width: 500px; /* you can use % */
+    height: 500px;
     image-rendering: pixelated;
+}
+
+.img_bricks {
+    width: 500px; /* you can use % */
+    height: 500px;
+    image-rendering: pixelated;
+}
+
+.img_palette {
+ width:540px;
+ height: 50px;
+ image-rendering: pixelated;
 }

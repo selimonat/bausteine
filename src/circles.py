@@ -1,11 +1,40 @@
 import numpy as np
 from svgwrite.container import SVG
 from svgwrite.shapes import Circle
-from PIL import Image
+from PIL import Image, ImageColor
 
 r = 10
 target_image_width = tiw = 48  # circles per row
 target_image_height = tih = None  # circles per column
+
+lego_colors = [
+    'Aqua',
+    'Plum',
+    'Sienna',
+    'Gold',
+    'OrangeRed',
+    'Orange',
+    'Khaki',
+    'OliveDrab',
+    'Tan',
+    'Black',
+    'SaddleBrown',
+    'Red',
+    'White',
+    'MidnightBlue',
+    'PowderBlue',
+    'Green'
+    ]
+
+
+def css_to_rgb(css):
+    """convert css color to rgb"""
+    c = list()
+    for css in lego_colors:
+        rgb = ImageColor.getcolor(css, "RGB")
+        for _ in rgb:
+            c.append(_)
+    return c
 
 
 def color_extractor(img):
@@ -65,9 +94,11 @@ def apply_palette(path_img):
     cga_colors = [
         182, 79, 73,
         181, 204, 214
-    ]  # white
-    # Create new 1x1 palette image
-    cga = Image.new('P', (1, len(cga_colors)))
+    ]
+    cga_colors = css_to_rgb(lego_colors)
+    # Create new palette image
+    palette_size = int(len(cga_colors) / 3)
+    cga = Image.new('P', (palette_size, 1))
     cga.putpalette(cga_colors)
     # Open image
     img = Image.open(path_img)
@@ -81,8 +112,8 @@ def apply_palette(path_img):
     res = img.quantize(colors=len(cga_colors), palette=cga, dither=Image.Dither.NONE)
     # Quantize to 5 colors, without dithering
     # res = img.quantize(colors=10, dither=Image.Dither.NONE)
-    res.save('./static/image_palette.png')
-    cga.putdata(range(len(cga_colors)))
+    res.save('./static/image_palette_applied.png')
+    cga.putdata(range(palette_size))
     cga.save('./static/palette.png')
     return 'image_palette.png'
 

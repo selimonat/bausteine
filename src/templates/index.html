@@ -24,13 +24,30 @@
     </div>
     </div></div>
 
-    <div class="container"> <div class="row">
-    <div class="bricksImage col-12">
-        {% if image_file %}
-        <img class="img-fluid" src="{{ url_for('static', filename=image_file) }}" alt="">
-        {% endif %}
+    <div class="container">
+        <div class="row">
+
+        <div class="oriImage col-6">
+            {% if image_file %}
+            <img class="img_ori" src="{{ url_for('static', filename=png_file) }}" alt="">
+            {% endif %}
+        </div>
+
+        <div class="bricksImage col-6">
+            {% if image_file %}
+            <img class="img_bricks" src="{{ url_for('static', filename=image_file) }}" alt="">
+            {% endif %}
+        </div>
     </div>
-        </div></div>
+        <div class="row">
+            <div class="palette col-6"></div>
+            <div class="palette col-6">
+                {% if image_file %}
+                <img class="img_palette" src="{{ url_for('static', filename=palette_file) }}" alt="">
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
   </body>
 </html>
