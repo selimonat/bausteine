@@ -8,22 +8,22 @@ target_image_width = tiw = 48  # circles per row
 target_image_height = tih = None  # circles per column
 
 lego_colors = [
-    'Aqua',
-    'Plum',
-    'Sienna',
-    'Gold',
-    'OrangeRed',
-    'Orange',
-    'Khaki',
-    'OliveDrab',
-    'Tan',
     'Black',
-    'SaddleBrown',
-    'Red',
-    'White',
-    'MidnightBlue',
+    'darkblue',
+    'deepskyblue',
     'PowderBlue',
-    'Green'
+    'White',
+    'Plum',
+    'Red',
+    'darkorange',
+    'Orange',
+    'Gold',
+    'lemonchiffon',
+    'wheat',
+    'peru',
+    'SaddleBrown',
+    'limegreen',
+    'Greenyellow'
     ]
 
 
@@ -107,7 +107,7 @@ def apply_palette(path_img):
     if img.mode == 'RGBA':
         print(f"Converting image mode to RGB")
         img = img.convert('RGB')
-    img = img.resize((40, 40))
+    img = img.resize((48, 48))
     # Quantize to our lovely CGA palette, without dithering
     res = img.quantize(colors=len(cga_colors), palette=cga, dither=Image.Dither.NONE)
     # Quantize to 5 colors, without dithering
