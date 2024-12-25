@@ -53,7 +53,7 @@ def image_to_circles(img_file='/Users/mehmet.selim.onat/PycharmProjects/baustein
         current_color_space = [eval(index) for index in color_resources.index]
 
         # get the closest color in the color space
-        c_color = get_closest_color(color, current_color_space)
+        c_color = get_closest_color(color, current_color_space, p_second_closest=0)
 
         # decrease the count of the closest color in the color resources
         if str(c_color) in color_resources.index:
@@ -70,7 +70,7 @@ def image_to_circles(img_file='/Users/mehmet.selim.onat/PycharmProjects/baustein
     img.save(path_matched)
 
     # save an SVG file with the circles where the color is the closest color in the color space
-    img_to_circles(path_matched)
+    img_to_circles(path_matched, color_space)
 
 
 def convert_all(folder='/Users/mehmet.selim.onat/PycharmProjects/bausteine/src/pics'):

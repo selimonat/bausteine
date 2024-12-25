@@ -1,20 +1,10 @@
 import pandas as pd
 from typing import List, Tuple
+from numpy import random
 
 
 def get_color_space(img=None) -> List[Tuple[int, int, int]]:
-    # Define a color palette
-    default_palette = [
-        (255, 0, 0),  # Red
-        (0, 255, 0),  # Green
-        (0, 0, 255),  # Blue
-        (255, 255, 0),  # Yellow
-        (0, 255, 255),  # Cyan
-        (255, 0, 255),  # Magenta
-        (0, 0, 0),  # Black
-        (255, 255, 255)  # White
-    ]
-    # color_picker
+    # default lego colors
     default_palette = [
         (38, 38, 38),
         (32, 70, 135),
@@ -81,25 +71,54 @@ def get_color_resources(color_palette: List[Tuple[int, int, int]], force_default
     return df
 
 
-def get_closest_color(color, color_space):
+def get_closest_color(color, color_space, p_second_closest=0) -> Tuple[int, int, int]:
     """
     For a given color, find the closest color in the color space.
+    Add the second closest color with a probability of p_second_closest.
     """
+
+    def get(color, color_space):
+        closest_color = None
+        min_distance = float('inf')
+        for c in color_space:
+            r2, g2, b2 = c
+            d = (r - r2) ** 2 + (g - g2) ** 2 + (b - b2) ** 2
+            if d < min_distance:
+                min_distance = d
+                closest_color = c
+        return closest_color
+
     if color_space == []:
         return (0, 0, 0, 0)  # 100% transparent color
 
     r, g, b = color[:3]
-    closest_color = None
-    min_distance = float('inf')
-    for c in color_space:
-        r2, g2, b2 = c
-        d = (r - r2) ** 2 + (g - g2) ** 2 + (b - b2) ** 2
-        if d < min_distance:
-            min_distance = d
-            closest_color = c
+
+    closest_color = get(color, color_space)
+    color_space.remove(closest_color)
+    second_closest_color = get(color, color_space)
+
+    if p_second_closest > 0:
+        if random.random() < p_second_closest:
+            return second_closest_color
+
     return closest_color
 
 
-if __name__ == "__main__":
-    get_color_resources(get_color_space(),force_default=False)
+def get_color_rank(color: Tuple, color_space: List[Tuple[int, int, int]]) -> int:
+    """
+    For a given color, find the rank of the color in the color space.
+    """
+    if color_space == []:
+        return None
+    r, g, b = color[:3]
+    rank = 1
+    for c in color_space:
+        r2, g2, b2 = c
+        if (r, g, b) == (r2, g2, b2):
+            return rank
+        rank += 1
+    return rank
 
+
+if __name__ == "__main__":
+    get_color_resources(get_color_space(), force_default=False)
