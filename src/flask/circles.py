@@ -119,6 +119,6 @@ def apply_palette(path_img):
 
 
 if __name__ == '__main__':
-    apply_palette("./static/image_02.png")
+    apply_palette("static/image_02.png")
     # s = svg_circles("./static/image.png")
     # print(s.tostring())
