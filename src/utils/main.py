@@ -77,6 +77,8 @@ def convert_all(folder='/Users/mehmet.selim.onat/PycharmProjects/bausteine/src/p
     def list_files(folder):
         import os
         files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
+        # exclude hidden files
+        files = [f for f in files if not f.startswith('.')]
         return files
 
     # list files in the folder that are images
