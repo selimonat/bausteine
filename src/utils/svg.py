@@ -2,14 +2,14 @@ from PIL import Image
 from src.utils.color_space import get_color_rank
 import os
 
-HEADER = """<svg width="50" height="51" xmlns="http://www.w3.org/2000/svg">
+HEADER = f"""<svg width="{50*10}" height="{(50+1)*10}" xmlns="http://www.w3.org/2000/svg">
 <style>
-    .toggle-target {
+    .toggle-target {{
       opacity: 1;
-    }
-    .toggle-element:hover ~ .toggle-target {
+    }}
+    .toggle-element:hover ~ .toggle-target {{
       opacity: 0.3;
-    }
+    }}
     .toggle-element-1:hover ~ .toggle-target-1,
     .toggle-element-2:hover ~ .toggle-target-2,
     .toggle-element-3:hover ~ .toggle-target-3,
@@ -25,14 +25,14 @@ HEADER = """<svg width="50" height="51" xmlns="http://www.w3.org/2000/svg">
     .toggle-element-13:hover ~ .toggle-target-13,
     .toggle-element-14:hover ~ .toggle-target-14,
     .toggle-element-15:hover ~ .toggle-target-15,
-    .toggle-element-16:hover ~ .toggle-target-16 {
+    .toggle-element-16:hover ~ .toggle-target-16 {{
       opacity: 1;
-    }
+    }}
 </style>
 <!-- add a border around the image -->
-<rect x="0.5" y="0.5" width="49" height="49" fill="black" stroke="white" stroke-width="1"/>
+<rect x="{0.5*10}" y="{0.5*10}" width="{49*10}" height="{49*10}" fill="black" stroke="white" stroke-width="{1*10}"/>
 <!-- add a gray horizontal line at the bottom -->
-<line x1="0" y1="50.5" x2="50" y2="50.5" stroke="gray" stroke-width="1"/>
+<line x1="0" y1="{50.5*10}" x2="{50*10}" y2="{50.5*10}" stroke="gray" stroke-width="{1*10}"/>
 """
 
 
@@ -48,7 +48,7 @@ def img_to_circles(img_file: str, color_space: list = None):
     # read the image
     img = Image.open(img_file)
     circles = []
-    # add color space circles at the bottom, these are toggle elements
+    # add color space circles at the bottom, these are toggle elements, at hover they will toggle target elements.
     if color_space:
         for idx, color in enumerate(color_space):
             r, g, b = color[:3]
@@ -57,13 +57,15 @@ def img_to_circles(img_file: str, color_space: list = None):
             tr, tg, tb = text_color
 
             circle = (
-                f'<circle class="toggle-element toggle-element-{rank}" cx="{idx+1.5}" cy="50.5" r="{0.5}" '
+                f'<circle class="toggle-element toggle-element-{rank}" cx="{(idx+1+0.5)*10}" cy="{50.5*10}" r="'
+                f'{0.5*10}" '
                 f'fill="rgb'
                 f'({r}'
                 f',{g}'
                 f',{b})" stroke="gray" '
                 f'stroke-width="0.02"/>')
-            text = (f'<text class="toggle-element toggle-element-{rank}" x="{idx + 1.5}" y="50.5" font-size="0.35" '
+            text = (f'<text class="toggle-element toggle-element-{rank}" x="{(idx + 1 + .5)*10}" y="{50.5*10}" '
+                    f'font-size="{0.35 * 10}" '
                     f'fill="rgb({tr},{tb},{tg})" text-anchor="middle" '
                     f'dominant-baseline="middle">{idx + 1}</text>')
             circles.append(circle)
@@ -72,14 +74,17 @@ def img_to_circles(img_file: str, color_space: list = None):
     # for each pixel, create a circle with the color of the pixel using svg
     # these circles are target elements
     width, height = img.size
-
+    R = .5
     for i in range(width):
         # add the number of the column on top of the column as a bold text
-        axis_text = (f'<text x="{i + 1.5}" y="0.5" font-size="0.35" fill="black" text-anchor="middle" '
+        axis_text = (f'<text x="{(i + 1 + R)*10}" y="{R*10}" font-size="{0.35 * 10}" fill="black" '
+                     f'text-anchor="middle" '
                         f'dominant-baseline="middle" font-weight="bold">{i + 1}</text>')
         circles.append(axis_text)
         # do the same with the bottom of the column
-        axis_text_bottom = (f'<text x="{i + 1.5}" y="{height + 1.5}" font-size="0.35" fill="black" text-anchor="middle" '
+        axis_text_bottom = (f'<text x="{(i + 1 + R)*10}" y="{(height + 1 + R)*10}" font-size="{0.35 * 10}" '
+                            f'fill="black" '
+                            f'text-anchor="middle" '
                         f'dominant-baseline="middle" font-weight="bold">{i + 1}</text>')
         circles.append(axis_text_bottom)
 
@@ -87,7 +92,8 @@ def img_to_circles(img_file: str, color_space: list = None):
             color = img.getpixel((i, j))
             rank = get_color_rank(color, color_space) if color_space else ''
             r, g, b = color[:3]
-            circle = (f'<circle class="toggle-target toggle-target-{rank}" cx="{i + 1.5}" cy="{j + 1.5}" r="0.5" '
+            circle = (f'<circle class="toggle-target toggle-target-{rank}" cx="{(i + 1.5)*10}" cy="'
+                      f'{(j + 1.5)*10}" r="{R * 10}" '
                       f'fill="rgb({r},{g}'
                       f',{b})" stroke="gray" '
                       f'stroke-width="0.02"/>')
@@ -97,7 +103,8 @@ def img_to_circles(img_file: str, color_space: list = None):
             content = rank
             text_color = get_contrast_color(*color[:3])
             r, g, b = text_color
-            text = (f'<text class="toggle-target toggle-target-{rank}" x="{i + 1.5}" y="{j + 1.5}" font-size="0.35" '
+            text = (f'<text class="toggle-target toggle-target-{rank}" x="{(i + 1 + R)*10}" y="{(j + 1 + R)*10}" '
+                    f'font-size="{0.35 * 10}" '
                     f'fill="rgb({r},{g}'
                     f',{b})" text-anchor="middle" '
                     f'dominant-baseline="middle">{content}</text>')
@@ -108,11 +115,12 @@ def img_to_circles(img_file: str, color_space: list = None):
 
             # add the index of the row on the left of the row
             if i == 0:
-                axis_text = (f'<text x="0.5" y="{j + 1.5}" font-size="0.35" fill="black" text-anchor="middle" '
+                axis_text = (f'<text x="{0.5*10}" y="{(j + 1.5)*10}" font-size="{0.35 * 10}" fill="black" '
+                             f'text-anchor="middle" '
                              f'dominant-baseline="middle" font-weight="bold">{j + 1}</text>')
                 circles.append(axis_text)
                 # also add it to the right of the image
-                axis_text_right = (f'<text x="{width + 1.5}" y="{j + 1.5}" font-size="0.35" fill="black" text-anchor="middle" '
+                axis_text_right = (f'<text x="{(width + 1.5)*10}" y="{(j + 1.5)*10}" font-size="{0.35 * 10}" fill="black" text-anchor="middle" '
                                    f'dominant-baseline="middle" font-weight="bold">{j + 1}</text>')
                 circles.append(axis_text_right)
 
