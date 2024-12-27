@@ -29,6 +29,6 @@ def pixelate_image(image: Image, width: int, height: int) -> Image:
 
 
 if __name__ == '__main__':
-    img = get_image('/Users/mehmet.selim.onat/PycharmProjects/bausteine/src/pics/IMG_1161.JPG')
+    img = get_image('/src/pics/reserve/IMG_1161.JPG')
     pixelate_image(img, 30, 30)
     print("Pixelated image saved as 'resized.png'")

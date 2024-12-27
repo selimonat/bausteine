@@ -1,44 +1,35 @@
 <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .toggle-target {
-      visibility: visible;
-    }
-    .toggle-element:hover ~ .toggle-target {
-      visibility: hidden;
-    }
-    .toggle-element-1:hover ~ .toggle-target-1,
-    .toggle-element-2:hover ~ .toggle-target-2,
-    .toggle-element-3:hover ~ .toggle-target-3,
-    .toggle-element-4:hover ~ .toggle-target-4,
-    .toggle-element-5:hover ~ .toggle-target-5,
-    .toggle-element-6:hover ~ .toggle-target-6,
-    .toggle-element-7:hover ~ .toggle-target-7,
-    .toggle-element-8:hover ~ .toggle-target-8,
-    .toggle-element-9:hover ~ .toggle-target-9,
-    .toggle-element-10:hover ~ .toggle-target-10,
-    .toggle-element-11:hover ~ .toggle-target-11,
-    .toggle-element-12:hover ~ .toggle-target-12,
-    .toggle-element-13:hover ~ .toggle-target-13,
-    .toggle-element-14:hover ~ .toggle-target-14,
-    .toggle-element-15:hover ~ .toggle-target-15,
-    .toggle-element-16:hover ~ .toggle-target-16 {
-      visibility: visible;
-    }
-  </style>
-  <!-- Elements to hover over -->
-  <rect class="toggle-element toggle-element-1" x="10" y="10" width="5" height="50" fill="blue" />
-  <rect class="toggle-element toggle-element-2" x="20" y="10" width="5" height="50" fill="green" />
-  <rect class="toggle-element toggle-element-3" x="30" y="10" width="5" height="50" fill="purple" />
-  <rect class="toggle-element toggle-element-4" x="40" y="10" width="5" height="50" fill="purple" />
-  <rect class="toggle-element toggle-element-5" x="50" y="10" width="5" height="50" fill="purple" />
-  <rect class="toggle-element toggle-element-6" x="60" y="10" width="5" height="50" fill="purple" />
-  <rect class="toggle-element toggle-element-7" x="80" y="10" width="5" height="50" fill="purple" />
+  <!-- Define target elements -->
+  <circle id="target1" cx="50" cy="50" r="20" fill="blue" />
+  <circle id="target2" cx="150" cy="50" r="20" fill="red" />
+  <circle class="target3" cx="100" cy="150" r="20" fill="green" />
+  <circle class="target3" cx="100" cy="150" r="2" fill="blue" />
 
-  <!-- Add more toggle elements as needed -->
-  <!-- Elements to toggle visibility -->
-  <circle class="toggle-target toggle-target-1" cx="100" cy="100" r="30" fill="red" />
-  <rect class="toggle-target toggle-target-2" x="150" y="150" width="30" height="30" fill="yellow" />
-  <ellipse class="toggle-target toggle-target-3" cx="50" cy="150" rx="20" ry="10" fill="orange" />
-  <ellipse class="toggle-target toggle-target-4" cx="5" cy="5" rx="20" ry="10" fill="white" />
-  <!-- Add more toggle targets as needed -->
+  <!-- Define toggle elements -->
+  <rect x="10" y="10" width="30" height="30" fill="gray" onclick="toggleVisibility('target1')" />
+  <rect x="60" y="10" width="30" height="30" fill="gray" onclick="toggleVisibility('target2')" />
+  <rect x="110" y="10" width="30" height="30" fill="gray" onclick="toggleVisibilityByClass('target3')" />
+
+  <!-- Add JavaScript for toggling visibility -->
+  <script type="text/javascript">
+    function toggleVisibility(targetId) {
+      var target = document.getElementById(targetId);
+      if (target.style.display === 'none') {
+        target.style.display = 'block';
+      } else {
+        target.style.display = 'none';
+      }
+    }
+
+    function toggleVisibilityByClass(targetClass) {
+      var targets = document.getElementsByClassName(targetClass);
+      for (var i = 0; i &lt; targets.length; i++) {
+        if (targets[i].style.display === 'none') {
+          targets[i].style.display = 'block';
+        } else {
+          targets[i].style.display = 'none';
+        }
+      }
+    }
+  </script>
 </svg>
