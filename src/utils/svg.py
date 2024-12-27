@@ -220,6 +220,18 @@ def add_circles(doc: str, img: Image, color_space: list) -> str:
     return doc
 
 
+def add_on_off_buttons(doc: str) -> str:
+    # create on and off buttons next to the color palette so that the user can toggle the visibility of the circles
+    on_button = f'<rect x="{(CANVAS_WIDTH - 2.5) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 0.5) * M}" width="{1 * M}" height="{1 * M}" fill="green" stroke="gray" stroke-width="0.02" onclick="toggleVisibilityByClass(\'toggle-target\')"/>'
+    on_text = f'<text x="{(CANVAS_WIDTH - 2.0) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 1.0) * M}" font-size="{0.35 * M}" fill="black" text-anchor="middle" dominant-baseline="middle">ON</text>'
+
+    off_button = f'<rect x="{(CANVAS_WIDTH - 1.5) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 0.5) * M}" width="{1 * M}" height="{1 * M}" fill="red" stroke="gray" stroke-width="0.02" onclick="toggleVisibilityByClass(\'toggle-target\')"/>'
+    off_text = f'<text x="{(CANVAS_WIDTH - 1.0) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 1.0) * M}" font-size="{0.35 * M}" fill="black" text-anchor="middle" dominant-baseline="middle">OFF</text>'
+
+    doc = doc.replace('</svg>', on_button + '\n' + on_text + '\n' + off_button + '\n' + off_text + '\n</svg>')
+    return doc
+
+
 def add_grid_lines(doc: str) -> str:
     # add grid lines
     for i in range(CANVAS_INNER_WIDTH):
@@ -247,6 +259,7 @@ def img_to_circles(img_file: str, color_space: list = None):
     circles = add_color_palette(circles, color_space)
     circles = add_circles(circles, img, color_space)
     circles = add_square_tiles(circles, 3)
+    circles = add_on_off_buttons(circles)
 
     # create the svg
     svg = circles
