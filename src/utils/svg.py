@@ -75,6 +75,20 @@ def add_script(doc: str) -> str:
         }
       }
     }
+    
+    function setVisibilityByClassOn(targetClass) {
+  var targets = document.getElementsByClassName(targetClass);
+  for (var i = 0; i &lt; targets.length; i++) {
+    targets[i].style.opacity = '1';
+  }
+}
+
+function setVisibilityByClassOff(targetClass) {
+  var targets = document.getElementsByClassName(targetClass);
+  for (var i = 0; i &lt; targets.length; i++) {
+    targets[i].style.opacity = '0.2';
+  }
+}
   </script>
     """
     # replace the RRR with the style
@@ -222,11 +236,11 @@ def add_circles(doc: str, img: Image, color_space: list) -> str:
 
 def add_on_off_buttons(doc: str) -> str:
     # create on and off buttons next to the color palette so that the user can toggle the visibility of the circles
-    on_button = f'<rect x="{(CANVAS_WIDTH - 2.5) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 0.5) * M}" width="{1 * M}" height="{1 * M}" fill="green" stroke="gray" stroke-width="0.02" onclick="toggleVisibilityByClass(\'toggle-target\')"/>'
-    on_text = f'<text x="{(CANVAS_WIDTH - 2.0) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 1.0) * M}" font-size="{0.35 * M}" fill="black" text-anchor="middle" dominant-baseline="middle">ON</text>'
+    on_button = f'<rect x="{(CANVAS_WIDTH - 4.5) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 0.5) * M}" width="{2 * M}" height="{1 * M}" fill="green" stroke="gray" stroke-width="0.02" onclick="setVisibilityByClassOn(\'toggle-target\')"/>'
+    on_text = f'<text x="{(CANVAS_WIDTH - 4.0) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 1.0) * M}" font-size="{0.35 * M}" fill="black" text-anchor="middle" dominant-baseline="middle">ON</text>'
 
-    off_button = f'<rect x="{(CANVAS_WIDTH - 1.5) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 0.5) * M}" width="{1 * M}" height="{1 * M}" fill="red" stroke="gray" stroke-width="0.02" onclick="toggleVisibilityByClass(\'toggle-target\')"/>'
-    off_text = f'<text x="{(CANVAS_WIDTH - 1.0) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 1.0) * M}" font-size="{0.35 * M}" fill="black" text-anchor="middle" dominant-baseline="middle">OFF</text>'
+    off_button = f'<rect x="{(CANVAS_WIDTH - 2.5) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 0.5) * M}" width="{2 * M}" height="{1 * M}" fill="red" stroke="gray" stroke-width="0.02" onclick="setVisibilityByClassOff(\'toggle-target\')"/>'
+    off_text = f'<text x="{(CANVAS_WIDTH - 2.0) * M}" y="{(CANVAS_HEIGHT - PALETTE_HEIGHT + 1.0) * M}" font-size="{0.35 * M}" fill="black" text-anchor="middle" dominant-baseline="middle">OFF</text>'
 
     doc = doc.replace('</svg>', on_button + '\n' + on_text + '\n' + off_button + '\n' + off_text + '\n</svg>')
     return doc
