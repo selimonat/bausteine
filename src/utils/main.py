@@ -38,6 +38,7 @@ def image_to_circles(img_file='/Users/mehmet.selim.onat/PycharmProjects/baustein
     y = np.repeat(np.arange(HEIGHT), WIDTH)
     coordinates = list(zip(x, y))
     # randomize the coordinates
+    np.random.seed(42)
     np.random.shuffle(coordinates)
     # run across the coordinates
     # # Matching: for each pixel get the color and match it to the closest color in the color space
