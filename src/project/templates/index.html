@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brick your own image</title>
+    <title>Interactive SVG Example</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,20 +16,21 @@
         }
         .container {
             display: flex;
+            flex-direction: column;
             width: 80%;
             height: 80%;
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .left, .right {
+        .top, .bottom {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
         }
-        .left {
-            border-right: 1px solid #ddd;
+        .top {
+            border-bottom: 1px solid #ddd;
         }
         .upload-btn {
             background-color: blue;
@@ -52,14 +53,20 @@
             border-color: #aaa;
         }
         .image-preview {
-            max-width: 100%;
+            max-width: 480px;
             max-height: 100%;
+        }
+        .images-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="left">
+        <div class="top">
             <form id="upload-form" enctype="multipart/form-data">
                 <div class="upload-area" id="upload-area">
                     <p>Drag and drop your image here</p>
@@ -68,15 +75,21 @@
                 </div>
             </form>
         </div>
-        <div class="right">
+        <div class="bottom">
             {% if uploaded_image %}
-                <h2>Uploaded Image</h2>
-                <img src="{{ uploaded_image }}" alt="Uploaded Image" class="image-preview">
-                <h2>Processed Image</h2>
-                <img src="{{ processed_image }}" alt="Processed Image" class="image-preview">
+                <div class="images-container">
+                    <div>
+                        <h2>Uploaded Image</h2>
+                        <img src="{{ uploaded_image }}" alt="Uploaded Image" class="image-preview">
+                    </div>
+                    <div>
+                        <h2>Processed Image</h2>
+                        <object type="image/svg+xml" data="{{ processed_image }}" ></object>
+                    </div>
+                </div>
             {% else %}
-                <h2>Upload an image to see the result</h2>
             {% endif %}
+                <h2>Upload an image to see the result</h2>
         </div>
     </div>
     <script>
