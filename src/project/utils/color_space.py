@@ -1,7 +1,10 @@
 import pandas as pd
 from typing import List, Tuple
 from numpy import random
+import os
 
+RESULT_FOLDER = os.path.join(os.path.dirname(__file__), '../static/color_resources')
+os.makedirs(RESULT_FOLDER, exist_ok=True)
 
 def get_color_space(img=None) -> List[Tuple[int, int, int]]:
     # default lego colors
@@ -29,7 +32,7 @@ def get_color_space(img=None) -> List[Tuple[int, int, int]]:
 
 
 def print_color_text(text, rgb):
-    r, g, b = rgbimg_tk
+    r, g, b = rgb
     print(f"\033[38;2;{r};{g};{b}m{text}\033[0m")
 
 
@@ -46,7 +49,8 @@ def get_color_resources(color_palette: List[Tuple[int, int, int]], force_default
     """
     # check if there is cached data, load it if it exists, print it and ask the user if they want to use it
     try:
-        df = pd.read_csv('color_resources.csv')
+        # read the cached data from project root/static/color_resources.csv
+        df = pd.read_csv(os.path.join(RESULT_FOLDER, 'color_resources.csv'))
         df = df.set_index('color')
         print("The following color resources are cached:")
         print(df)
@@ -56,6 +60,7 @@ def get_color_resources(color_palette: List[Tuple[int, int, int]], force_default
         if use_cached == 'y':
             return df
     except FileNotFoundError:
+        print("No cached data found.")
         pass
     # convert the list of tuples to a dictionary where tuple entries are keys
     color_resources = {color: 0 for color in color_palette}
@@ -67,7 +72,7 @@ def get_color_resources(color_palette: List[Tuple[int, int, int]], force_default
         color_resources[color] = n
     # convert it to a dataframe and save it as a CSV file
     df = pd.DataFrame(color_resources.items(), columns=['color', 'n'])
-    df.to_csv('color_resources.csv', index=False)
+    df.to_csv(os.path.join(RESULT_FOLDER, 'color_resources.csv'), index=False)
     return df
 
 

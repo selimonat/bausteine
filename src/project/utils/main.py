@@ -1,8 +1,9 @@
 import numpy as np
-from src.utils.image import pixelate_image, get_image
-from src.utils.color_space import get_color_resources, get_color_space, get_closest_color
-from src.utils.config import WIDTH, HEIGHT
-from src.utils.svg import img_to_circles
+from src.project.utils.image import pixelate_image, get_image
+from src.project.utils.color_space import get_color_resources, get_color_space, get_closest_color
+from src.project.utils.config import WIDTH, HEIGHT
+from src.project.utils.svg import img_to_circles
+import os
 
 
 def image_to_circles(img_file='/Users/mehmet.selim.onat/PycharmProjects/bausteine/src/pics/IMG_1154.JPG',
@@ -19,12 +20,14 @@ def image_to_circles(img_file='/Users/mehmet.selim.onat/PycharmProjects/baustein
     filename, ext = filename.rsplit('.', 1)
     filename_matched = f"{filename}color_matched.png"
     path_matched = f"{path_results}{filename_matched}"
+    # create the directory path_matched if it doesnt exist
+    os.makedirs(os.path.dirname(path_matched), exist_ok=True)
 
     # get the color space
     color_space = get_color_space()
 
     # get the color resources
-    color_resources = get_color_resources(color_space)
+    color_resources = get_color_resources(color_space, force_default=True)
     if no_limit:
         color_resources['n'] = np.Inf
 
@@ -68,10 +71,13 @@ def image_to_circles(img_file='/Users/mehmet.selim.onat/PycharmProjects/baustein
         img.putpixel((i, j), c_color)
 
     # save the image
+    print(f"Saving the pixelated image to {path_matched}")
     img.save(path_matched)
 
     # save an SVG file with the circles where the color is the closest color in the color space
-    img_to_circles(path_matched, color_space)
+    svg_path = img_to_circles(path_matched, color_space)
+    print(f"SVG file saved to {svg_path}")
+    return svg_path
 
 
 def convert_all(folder='/Users/mehmet.selim.onat/PycharmProjects/bausteine/src/pics'):

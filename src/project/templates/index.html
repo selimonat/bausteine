@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brick your own image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            height: 80%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .left, .right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .left {
+            border-right: 1px solid #ddd;
+        }
+        .upload-btn {
+            background-color: blue;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+        }
+        .upload-btn:hover {
+            background-color: darkblue;
+        }
+        .upload-area {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #aaa;
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <form id="upload-form" enctype="multipart/form-data">
+                <div class="upload-area" id="upload-area">
+                    <p>Drag and drop your image here</p>
+                    <button type="button" class="upload-btn" onclick="document.getElementById('file-input').click()">Upload your image</button>
+                    <input type="file" id="file-input" name="file" style="display: none;" accept="image/*">
+                </div>
+            </form>
+        </div>
+        <div class="right">
+            {% if uploaded_image %}
+                <h2>Uploaded Image</h2>
+                <img src="{{ uploaded_image }}" alt="Uploaded Image" class="image-preview">
+                <h2>Processed Image</h2>
+                <img src="{{ processed_image }}" alt="Processed Image" class="image-preview">
+            {% else %}
+                <h2>Upload an image to see the result</h2>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const uploadForm = document.getElementById('upload-form');
+
+        uploadArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            uploadArea.style.borderColor = '#aaa';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#ddd';
+        });
+
+        uploadArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            uploadArea.style.borderColor = '#ddd';
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                uploadImage();
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            uploadImage();
+        });
+
+        function uploadImage() {
+            const formData = new FormData(uploadForm);
+            formData.append('file', fileInput.files[0]);
+
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.body.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

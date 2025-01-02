@@ -1,5 +1,5 @@
 from PIL import Image
-from src.utils.color_space import get_color_rank
+from src.project.utils.color_space import get_color_rank
 import os
 
 RR = 1  # radius of the circles on the colorpalette
@@ -282,8 +282,10 @@ def img_to_circles(img_file: str, color_space: list = None):
     img_file += '.svg'
 
     # save the svg file
+    print(f"Saving the svg file to {img_file}")
     with open(img_file, 'w') as f:
         f.write(svg)
 
     # make the svg file writable
     os.chmod(img_file, 0o777)
+    return img_file
