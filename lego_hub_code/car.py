@@ -4,7 +4,6 @@ from pybricks.pupdevices import Motor
 from pybricks.robotics import Car
 
 # Set up all devices.
-# front = Motor(Port.A, Direction.CLOCKWISE)
 rear = Motor(Port.B, Direction.CLOCKWISE)
 steer = Motor(Port.D, Direction.CLOCKWISE)
 car = Car(steer, rear)
@@ -15,8 +14,12 @@ while True:
     # Steer with the right joystick.
     horizontal, _ = controller.joystick_right()
 
-    # Drive using the trigger inputs.
-    brake, acceleration = controller.triggers()
+    # Read the triggers.
+    brake_trigger, accel_trigger = controller.triggers()
 
-    car.drive_power(acceleration - brake)
+    # Read the left joystick vertical axis.
+    _, vertical_left = controller.joystick_left()  # up = -100, down = +100
+
+    # Apply drive and steering.
+    car.drive_power(vertical_left - brake_trigger + accel_trigger)
     car.steer(-horizontal)
